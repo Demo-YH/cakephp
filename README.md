@@ -19,6 +19,7 @@
 #### 7. Docker Desktopインストール  
 #### 8. dockerでwslを使用する設定に変更  
 #### 9. terminalに戻りdockerで使用するイメージのフォルダ構成作成  
+※dockerフォルダ及びその配下、dockerフォルダと同位置に.env、docker-compose.ymlを配置する。  
 #### 10. webフォルダ配下にDockerfile作成にて、使用するイメージ作成の設定  
 #### 11. composer.ymlにて作成するコンテナの初期状態を  
 #### 「ports:」「volumes:」などYAML形式を用いて定義。  
