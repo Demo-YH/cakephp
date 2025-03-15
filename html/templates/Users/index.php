@@ -7,7 +7,7 @@
 <?php $this->extend('/layout/TwitterBootstrap/dashboard'); ?>
 
 <?php $this->start('tb_actions'); ?>
-<li><?= $this->Html->link(__('New User'), ['action' => 'add'], ['class' => 'nav-link']) ?></li>
+<li><?= $this->Html->link(__('List Todos'), ['controller' => 'Todos', 'action' => 'index'], ['class' => 'nav-link']) ?></li>
 <?php $this->end(); ?>
 <?php $this->assign('tb_sidebar', '<ul class="nav flex-column">' . $this->fetch('tb_actions') . '</ul>'); ?>
 
@@ -17,7 +17,6 @@
         <th scope="col"><?= $this->Paginator->sort('id') ?></th>
         <th scope="col"><?= $this->Paginator->sort('name') ?></th>
         <th scope="col"><?= $this->Paginator->sort('email') ?></th>
-        <th scope="col"><?= $this->Paginator->sort('first_day_week') ?></th>
         <th scope="col"><?= $this->Paginator->sort('created') ?></th>
         <th scope="col"><?= $this->Paginator->sort('modified') ?></th>
         <th scope="col" class="actions"><?= __('Actions') ?></th>
@@ -29,7 +28,6 @@
             <td><?= $this->Number->format($user->id) ?></td>
             <td><?= h($user->name) ?></td>
             <td><?= h($user->email) ?></td>
-            <td><?= $this->Number->format($user->first_day_week) ?></td>
             <td><?= h($user->created) ?></td>
             <td><?= h($user->modified) ?></td>
             <td class="actions">

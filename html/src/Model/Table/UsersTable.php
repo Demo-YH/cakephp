@@ -47,6 +47,8 @@ class UsersTable extends Table
 
         $this->hasMany('Todos', [
             'foreignKey' => 'user_id',
+            'dependent' => true,
+            'cascadeCallbacks' => true,
         ]);
 
     }

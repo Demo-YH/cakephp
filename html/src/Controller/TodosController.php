@@ -63,7 +63,9 @@ class TodosController extends AppController
             $this->Flash->error(__('The todo could not be saved. Please, try again.'));
         }
         $users = $this->Todos->Users->find('list', limit: 200)->all();
-        $this->set(compact('todo', 'users'));
+        $login = $this->Authentication->getIdentity()->get('id');
+
+        $this->set(compact('todo', 'users', 'login'));
     }
 
     /**
