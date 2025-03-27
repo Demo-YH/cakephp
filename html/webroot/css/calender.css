@@ -37,20 +37,27 @@ td {
     font-weight: bold;
 }
 
-.justify{
-    text-align:justify;
-    word-break:break-all; 
-    text-justify:inter-ideograph;
-    text-justify:inter-character;
-    word-wrap:break-word;
-    overflow-wrap:break-word;
-}
+.weekdayBox {
+    width: 100%;
+    display: table;
+  }
+  
+  .left-content {
+    width: 30%;
+    display: table-cell;
+  }
+  
+  .right-content {
+    width: 70%;
+    display: table-cell;
+    text-align : right;
+  }
 
 .btn-flat-border {
-    padding: 0.5em 1em;
-    margin: 2em 0;
+    padding: 0.5em 0.6em;
+    margin: 0.5em 0;
     color: #6091d3;/*文字色*/
     background: #FFF;
     border: solid 1px #6091d3;/*線*/
-    border-radius: 5px;/*角の丸み*/
+    border-radius: 3px;/*角の丸み*/
 }

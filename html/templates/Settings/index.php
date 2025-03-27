@@ -9,6 +9,7 @@
         <div class="side-nav">
             <h4 class="heading"><?= __('Actions') ?></h4>
             <?= $this->Html->link(__('Calenders'), ['controller' => 'Calenders', 'action' => 'index'], ['class' => 'side-nav-item']) ?>
+            <?= $this->Html->link(__('List Todos'), ['controller' => 'Todos', 'action' => 'index'], ['class' => 'nav-link']) ?>
             <?= $this->Html->link(__('logout'), ['action' => 'logout'], ['class' => 'side-nav-item']) ?>
         </div>
     </aside>

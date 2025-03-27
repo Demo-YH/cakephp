@@ -8,6 +8,7 @@
 <div class="row">
     <aside class="column">
         <div class="side-nav">
+            <h4 class="heading"><?= __('Actions') ?></h4>
             <?= $this->Html->link(__('List Todos'), ['controller' => 'Todos', 'action' => 'index'], ['class' => 'side-nav-item']) ?>
             <?= $this->Html->link(__('Settings'), ['controller' => 'Settings', 'action' => 'index'], ['class' => 'side-nav-item']) ?>
             <?= $this->Html->link(__('logout'), ['action' => 'logout'], ['class' => 'side-nav-item']) ?>
@@ -18,7 +19,6 @@
             <?= $this->Form->create() ?>
             <?php echo $this->Html->css('reset'); 
              echo $this->Html->css('calender')?>
-
             <fieldset>
                 <!-- <legend><?= __('Calenser') ?></legend> -->
                 <div class="card-header">
@@ -99,9 +99,9 @@
                     </table>
                 </div>
                 <div class="card-footer">
-                    <div class="row">
-                        <div class="col-md-10">開始曜日切替え<br></div>
-                        <div class="col-md-2 justify">
+                    <div class="weekdayBox">
+                        <div class="left-content">開始曜日切替え：<br></div>
+                        <div class="right-content">
                             <a href="?sd=<?= Weekday::START_SUN ?>&ym=<?= $currentDate ?>" class="btn-flat-border"><?php echo '日曜' ?></a>
                             <a href="?sd=<?= Weekday::START_MON ?>&ym=<?= $currentDate ?>" class="btn-flat-border"><?php echo '月曜' ?></a>
                         </div> 

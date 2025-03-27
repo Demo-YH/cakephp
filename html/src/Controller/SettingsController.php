@@ -28,7 +28,7 @@ class SettingsController extends AppController
             $newSelectDayWeek = $userSettingWeekday;
         }
 
-        $newSelectDayWeek = $this->request->getData('週の始まり選択'); // $newSelectDayWeek を定義
+        $newSelectDayWeek = $this->request->getData('週の始まり選択'); 
         
         if ($this->request->is(['patch', 'post', 'put'])) {
             if ($UsersTable) { // $UsersTable が null でないことを確認

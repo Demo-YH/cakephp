@@ -24,7 +24,10 @@ class CalendersController extends AppController
         $today = new DateTime();
         $currentDate =  $this->getRequest()->getQuery('ym', $today->format('Y-m-d'));
         $selectDayWeek = $this->getRequest()->getQuery('sd');
-        $userSettingWeekday = $this->Authentication->getIdentity()->first_day_week;
+
+        $loginId = $this->getRequest()->getSession()->read('Auth.id');
+        $UsersTable = $this->fetchTable('Users')->find()->where(['id' => $loginId])->first();
+        $userSettingWeekday = $UsersTable->first_day_week;
 
         if (!isset($selectDayWeek)) {
             $selectDayWeek = $userSettingWeekday;
