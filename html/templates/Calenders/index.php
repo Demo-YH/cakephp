@@ -17,12 +17,10 @@
     <div class="column column-80">
         <div class="calenders form content">
             <?= $this->Form->create() ?>
-            <?php echo $this->Html->css('reset'); 
-             echo $this->Html->css('calender')?>
             <fieldset>
-                <!-- <legend><?= __('Calenser') ?></legend> -->
+                <?php echo $this->Html->css('calender'); ?>
                 <div class="card-header">
-                    <h5>
+                    <h5 class="month">
                         <a href="?ym=<?= $prev->format('Y-m-d') ?>&sd=<?= $selectDayWeek ?>">&lt;</a>
                         <?= $startDay->format('Y年n月') ?>
                         <a href="?ym=<?= $next->format('Y-m-d') ?>&sd=<?= $selectDayWeek ?>">&gt;</a>

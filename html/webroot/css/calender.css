@@ -7,6 +7,10 @@
     background: white;
 }
 
+.month {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
 th {
     height: 100px;
     background-color: #FFF;
