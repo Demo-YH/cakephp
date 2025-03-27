@@ -1,0 +1,56 @@
+@charset "utf-8";
+.container {
+    width: 100%;
+    max-width: 3000px;
+    margin-right: auto;
+    margin-left: auto;
+    background: white;
+}
+
+th {
+    height: 100px;
+    background-color: #FFF;
+    border: 1px solid #CCC;
+    text-align: center;
+}
+
+td {
+    height: 100px;
+    background-color: #FFF;
+    border: 1px solid #CCC;
+}
+
+/* 日曜 */
+.sun {
+    color: #FF0000;
+    font-weight: bold;
+}
+
+/* 土曜 */
+.sat {
+    color: #0000FF;
+    font-weight: bold;
+}
+
+.today {
+    background-color: #fbffa3;
+    font-weight: bold;
+}
+
+.justify{
+    text-align:justify;
+    word-break:break-all; 
+    text-justify:inter-ideograph;
+    text-justify:inter-character;
+    word-wrap:break-word;
+    overflow-wrap:break-word;
+}
+
+.btn-flat-border {
+    padding: 0.5em 1em;
+    margin: 2em 0;
+    color: #6091d3;/*文字色*/
+    background: #FFF;
+    border: solid 1px #6091d3;/*線*/
+    border-radius: 5px;/*角の丸み*/
+}
