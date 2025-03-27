@@ -24,15 +24,9 @@ class SettingsController extends AppController
         $UsersTable = $this->fetchTable('Users')->find()->where(['id' => $loginId])->first();
         $userSettingWeekday = $UsersTable->first_day_week;
 
-        if (!isset($newSelectDayWeek)) {
-            $newSelectDayWeek = $userSettingWeekday;
-        }
-
-        $newSelectDayWeek = $this->request->getData('週の始まり選択'); 
-        
         if ($this->request->is(['patch', 'post', 'put'])) {
             if ($UsersTable) { // $UsersTable が null でないことを確認
-                $UsersTable->first_day_week = $newSelectDayWeek; // ユーザーエンティティのプロパティを更新
+                $UsersTable->first_day_week = $this->request->getData('週の始まり選択'); // ユーザーエンティティのプロパティを更新
                 if ($this->fetchTable('Users')->save($UsersTable)) { // $UsersTable を保存
                     $this->Flash->success(__('The setting has been saved.'));
                 } else {
@@ -43,7 +37,7 @@ class SettingsController extends AppController
             }
         }
 
-        $this->set(compact('weekdayList', 'userSettingWeekday', 'newSelectDayWeek'));
+        $this->set(compact('weekdayList', 'userSettingWeekday'));
 
     }
 
