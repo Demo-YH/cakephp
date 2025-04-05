@@ -88,9 +88,11 @@
                                 </td>
                             <?php endforeach; ?>
 
-                            <?php for ($i = 0; $i < $last - $lastDayWeek; $i++): ?>
+                            <? $i = 0 ?>
+                            <?php while ($i != $last - $lastDayWeek): ?>
                                 <td>&nbsp;</td>
-                            <?php endfor; ?>
+                                <? $i++; ?>
+                            <?php endwhile; ?>
 
                             </tr>
                         </tbody>
