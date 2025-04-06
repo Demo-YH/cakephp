@@ -39,17 +39,19 @@ class CalendersController extends AppController
         $prev = (clone $startDay)->modify('-1 month');
         $next = (clone $startDay)->modify('+1 month');
 
+        $startWeekdayList = [];
+        $startWeekdayList = Weekday::START_DAY_WEEK_LIST[$selectDayWeek];
+        $first = $startWeekdayList['first'];
+        $last = $startWeekdayList['last'];
+
         if ($selectDayWeek == Weekday::START_SUN) {
             $firstDayWeek = $startDay->format('w');
             $lastDayWeek = $lastDay->format('w');
-            $first = Weekday::START_DAY_WEEK_SUN['first'];
-            $last = Weekday::START_DAY_WEEK_SUN['last'];
 
         } else {
             $firstDayWeek = $startDay->format('N');
             $lastDayWeek = $lastDay->format('N');
-            $first = Weekday::START_DAY_WEEK_MON['first'];
-            $last = Weekday::START_DAY_WEEK_MON['last'];
+
         }
 
         $interval = new DateInterval('P1D');

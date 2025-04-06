@@ -15,18 +15,20 @@ class Weekday
     public const END_SAT = 6;
     public const END_SUN = 7;
 
-    public const START_DAY_WEEK_LIST = [
+    public const START_DAY_WEEK_SELECTBOX_LIST = [
         self::START_SUN => '日曜日',
         self::START_MON => '月曜日',
     ];
 
-    public const START_DAY_WEEK_SUN = [
-        'first' => self::START_SUN,
-        'last' => self::END_SAT,
+    public const START_DAY_WEEK_LIST = [
+        self::START_SUN => [
+            'first' => self::START_SUN,
+            'last' => self::END_SAT,
+        ],
+        self::START_MON => [
+            'first' => self::START_MON,
+            'last' => self::END_SUN,
+        ]
     ];
 
-    public const START_DAY_WEEK_MON = [
-        'first' => self::START_MON,
-        'last' => self::END_SUN,
-    ];
 }
