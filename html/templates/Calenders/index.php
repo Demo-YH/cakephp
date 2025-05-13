@@ -4,7 +4,7 @@
  * @var \App\Model\Entity\Todo $todo
  */
 ?>
-<?php use App\const\Weekday; ?>
+<?php use App\Constants\Weekday; ?>
 <div class="row">
     <aside class="column">
         <div class="side-nav">
@@ -22,77 +22,80 @@
                 <div class="card-header">
                     <h5 class="month">
                         <a href="?ym=<?= $prev->format('Y-m-d') ?>&sd=<?= $selectDayWeek ?>">&lt;</a>
-                        <?= $startDay->format('Y年n月') ?>
+                        <?= $firstDay->format('Y年n月') ?>
                         <a href="?ym=<?= $next->format('Y-m-d') ?>&sd=<?= $selectDayWeek ?>">&gt;</a>
                     </h5>
                 </div>
                 <div class="card-body">
                     <table class="table table-bordered">
-                        <?php if ($selectDayWeek == Weekday::START_SUN): ?>
+                        <?php if ($selectDayWeek == Weekday::SUN): ?>
                             <thead>
                                 <tr>
-                                    <th class="sun">日</th>
-                                    <th>月</th>
-                                    <th>火</th>
-                                    <th>水</th>
-                                    <th>木</th>
-                                    <th>金</th>
-                                    <th class="sat">土</th>
+                                <?php foreach ($weekdays as $weekday): ?>
+                                    <?php if ($weekday == Weekday::DAY_WEEK_LIST[Weekday::SUN]): ?>
+                                        <th class='sun'><?= $weekday ?></th>
+                                    <?php elseif ($weekday == Weekday::DAY_WEEK_LIST[Weekday::SAT]): ?>
+                                        <th class="sat"><?= $weekday ?></th>
+                                    <?php else: ?>
+                                        <th><?= $weekday ?></th>
+                                    <?php endif ?>
+                                <?php endforeach; ?>
                                 </tr>
                             </thead>
                         <?php endif ?>
-                        <?php if ($selectDayWeek == Weekday::START_MON): ?>
+                        <?php if ($selectDayWeek == Weekday::ISO_MON): ?>
                             <thead>
                                 <tr>
-                                    <th>月</th>
-                                    <th>火</th>
-                                    <th>水</th>
-                                    <th>木</th>
-                                    <th>金</th>
-                                    <th class="sat">土</th>
-                                    <th class="sun">日</th>
+                                <?php foreach ($weekdays as $weekday): ?>
+                                    <?php if ($weekday == Weekday::DAY_WEEK_ISO_LIST[Weekday::ISO_SUN]): ?>
+                                        <th class='sun'><?= $weekday ?></th>
+                                    <?php elseif ($weekday == Weekday::DAY_WEEK_ISO_LIST[Weekday::ISO_SAT]): ?>
+                                        <th class="sat"><?= $weekday ?></th>
+                                    <?php else: ?>
+                                        <th><?= $weekday ?></th>
+                                    <?php endif ?>
+                                <?php endforeach; ?>
                                 </tr>
                             </thead>
                         <?php endif ?>
-                        <tbody>
-                            <tr>
-                            <?php for ($i = $first; $i < $firstDayWeek; $i++): ?>
-                                <td>&nbsp;</td>
-                            <?php endfor; ?>
 
-                            <?php foreach ($period as $day): ?>
-                                <?php if ($day->format('w') == $first || $day->format('N') == $first): ?>
+                        <tbody>
+                            <?php foreach ($period as $index => $day): ?>
+                                <?php if ($index % 7 == 0): ?>
                                     <tr>
                                 <?php endif ?>
-                                <?php if ($day->format('w') > $last || $day->format('N') > $last): ?>
+                                <?php
+                                    $tdClass = '';
+                                    if ($day->format('Y-m-d') === $today->format('Y-m-d')) {
+                                        $tdClass .= 'today';
+                                    }
+                                    if ($day->format('w') == Weekday::SAT || $day->format('N') == Weekday::ISO_SAT) {
+                                        $tdClass .= ' sat';
+                                    } elseif ($day->format('w') == Weekday::SUN || $day->format('N') == Weekday::ISO_SUN) {
+                                        $tdClass .= ' sun';
+                                    }
+                                ?>
+                                <td class="<?= $tdClass ?>">
+
+                                <?php if ($day->format('n') == $currentDate->format('n')): ?>
+                                    <?= $day->format('j') ?>
+                                    <?php if (isset ($todoData[$day->format('Y-m-d')])): ?>
+                                        <?php foreach ($todoData[$day->format('Y-m-d')] as $todo): ?>
+                                            <br><?= $todo['title'] ?>
+                                        <?php endforeach; ?>
+                                    <?php endif ?>
+                                <?php else: ?>
+                                    <?php if ($selectDayWeek == Weekday::ISO_MON && $day->format('n') == $next->format('n') && (($index + 1) % 7 == 0)): ?>
+                                        <?php break; ?>
+                                    <?php endif ?>
+                                <?php endif ?>
+                                </td>
+
+                                <?php if (($index +1) % 7 == 0): ?>
                                     </tr>
                                 <?php endif ?>
-                                <?php if ($today->format('Y-m-d') == $day->format('Y-m-d')): ?>
-                                    <td class="today">
-                                <?php elseif ($day->format('w') == Weekday::END_SAT || $day->format('N') == Weekday::END_SAT): ?>
-                                    <td class="sat">
-                                <?php elseif ($day->format('w') == Weekday::START_SUN || $day->format('N') == Weekday::END_SUN): ?>
-                                    <td class="sun">
-                                <?php else: ?>
-                                    <td>
-                                <?php endif ?>
 
-                                <?= $day->format('j'); ?>
-
-                                <?php if (isset ($todoData[$day->format('Y-m-d')])): ?>
-                                    <?php foreach ($todoData[$day->format('Y-m-d')] as $todo): ?>
-                                        <br><?= $todo['title'] ?>
-                                    <?php endforeach; ?>
-                                <?php endif ?>
-
-                                </td>
                             <?php endforeach; ?>
-
-                            <?php for ($i = $lastDayWeek; $i < $last; $i++): ?>
-                                <td>&nbsp;</td>
-                            <?php endfor; ?>
-
-                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -100,8 +103,8 @@
                     <div class="weekdayBox">
                         <div class="left-content">開始曜日切替え：<br></div>
                         <div class="right-content">
-                            <a href="?sd=<?= Weekday::START_SUN ?>&ym=<?= $currentDate ?>" class="btn-flat-border"><?php echo '日曜' ?></a>
-                            <a href="?sd=<?= Weekday::START_MON ?>&ym=<?= $currentDate ?>" class="btn-flat-border"><?php echo '月曜' ?></a>
+                            <a href="?sd=<?= Weekday::SUN ?>&ym=<?= $currentDate->format('Y-m-d') ?>" class="btn-flat-border"><?= Weekday::START_DAY_WEEK_NAMES[Weekday::SUN] ?></a>
+                            <a href="?sd=<?= Weekday::ISO_MON ?>&ym=<?= $currentDate->format('Y-m-d') ?>" class="btn-flat-border"><?= Weekday::START_DAY_WEEK_NAMES[Weekday::ISO_MON] ?></a>
                         </div> 
                     </div>
                 </div>

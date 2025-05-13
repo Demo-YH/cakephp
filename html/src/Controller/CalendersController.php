@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 namespace App\Controller;
-use App\Const\Weekday;
+use App\Constants\Weekday;
 use DateTime;
 use DateInterval;
 use DatePeriod;
@@ -22,40 +22,40 @@ class CalendersController extends AppController
     public function index()
     {
         $today = new DateTime();
-        $currentDate =  $this->getRequest()->getQuery('ym', $today->format('Y-m-d'));
         $selectDayWeek = $this->getRequest()->getQuery('sd');
+
+        if (!isset($ym)) {
+            $ym = $this->getRequest()->getQuery('ym', $today->format('Y-m-d'));
+        }
+
+        $currentDate = new DateTime($ym . '-01');
 
         $loginId = $this->getRequest()->getSession()->read('Auth.id');
         $UsersTable = $this->fetchTable('Users')->find()->where(['id' => $loginId])->first();
-        $userSettingWeekday = $UsersTable->first_day_week;
 
         if (!isset($selectDayWeek)) {
-            $selectDayWeek = $userSettingWeekday;
+            $selectDayWeek = $UsersTable->first_day_week;
         }
 
-        $startDay = new DateTime('first day of' . $currentDate);
-        $lastDay = new DateTime('last day of' . $currentDate);
+        $firstDay = new DateTime('first day of' . $currentDate->format('Y-m-d'));
+        $lastDay = new DateTime('last day of' . $currentDate->format('Y-m-d'));
 
-        $prev = (clone $startDay)->modify('-1 month');
-        $next = (clone $startDay)->modify('+1 month');
+        $prev = (clone $firstDay)->modify('-1 month');
+        $next = (clone $firstDay)->modify('+1 month');
 
-        $startWeekdayList = [];
-        $startWeekdayList = Weekday::START_DAY_WEEK_LIST[$selectDayWeek];
-        $first = $startWeekdayList['first'];
-        $last = $startWeekdayList['last'];
+        $weekdays = Weekday::DAY_WEEK_ISO_LIST;
+        $weekRange = Weekday::START_END_WEEKS[Weekday::ISO_MON];
+        $first = $weekRange['first'];
+        $last = $weekRange['last'];
 
-        if ($selectDayWeek == Weekday::START_SUN) {
-            $firstDayWeek = $startDay->format('w');
-            $lastDayWeek = $lastDay->format('w');
-
-        } else {
-            $firstDayWeek = $startDay->format('N');
-            $lastDayWeek = $lastDay->format('N');
-
+        if ($selectDayWeek == Weekday::SUN) {
+            $weekdays = Weekday::DAY_WEEK_LIST;
+            $weekRange = Weekday::START_END_WEEKS[Weekday::SUN];
+            $first = $weekRange['first'];
+            $last = $weekRange['last'];
         }
 
-        $interval = new DateInterval('P1D');
-        $period = new DatePeriod($startDay, $interval, $lastDay, DatePeriod::INCLUDE_END_DATE);
+        $period = $this->generateCalendar($firstDay, $lastDay, (string)$selectDayWeek);
 
         $loginId = $this->getRequest()->getSession()->read('Auth.id');
         $todosTable = $this->fetchTable('Todos')->find()->where(['user_id' => $loginId])->all();
@@ -67,7 +67,7 @@ class CalendersController extends AppController
             $todoData[$deadline][] = $todo;
         }
 
-        $this->set(compact('today', 'startDay', 'firstDayWeek', 'lastDayWeek', 'first', 'last', 'prev' ,'next' ,'period' ,'todoData' ,'selectDayWeek' ,'currentDate'));
+        $this->set(compact('ym', 'today', 'weekdays', 'firstDay', 'first', 'last', 'prev' ,'next' ,'period' ,'todoData' ,'selectDayWeek' ,'currentDate'));
 
     }
 
@@ -84,6 +84,41 @@ class CalendersController extends AppController
 
             return $this->redirect(['controller' => 'Users', 'action' => 'login']);
         }
+    }
+
+    /**
+     * カレンダー表示期間を生成する
+     *
+     * @param Datetime $firstDate
+     * @param DateTime $lastDate
+     * @param string $selectDayWeek
+     * @return DatePeriod
+     */
+    private function generateCalendar(Datetime $firstDate, DateTime $lastDate, string $selectDayWeek): DatePeriod
+    {
+        $firstDateClone = clone $firstDate;
+        $lastDateClone = clone $lastDate;
+
+        $firstInterval = $firstDateClone->format('w');
+        if ($selectDayWeek == Weekday::ISO_MON && $firstDateClone->format('N') != Weekday::ISO_MON) {
+            $firstInterval = $firstDateClone->format('N') - Weekday::ISO_MON;
+        }
+
+        $firstDateClone->sub(new DateInterval('P' . $firstInterval . 'D'));
+
+        $lastInterval = Weekday::SAT - $lastDateClone->format('w');
+        if ($selectDayWeek == Weekday::ISO_MON && $lastDateClone->format('N') != Weekday::ISO_SUN) {
+            $lastInterval = Weekday::ISO_SUN - $lastDateClone->format('N');
+        }
+
+        if ($selectDayWeek == Weekday::ISO_MON && $lastDateClone->format('N') == Weekday::ISO_SUN) {
+            $lastInterval = $lastDateClone->format('N') - 7;
+        }
+
+        $lastDateClone->add(new DateInterval('P' . $lastInterval . 'D'));
+        $interval = new DateInterval('P1D');
+
+        return new DatePeriod($firstDateClone, $interval, $lastDateClone, DatePeriod::INCLUDE_END_DATE);
     }
 
 }

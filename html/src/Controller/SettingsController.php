@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 namespace App\Controller;
-use App\Const\Weekday;
+use App\Constants\Weekday;
 use Cake\ORM\TableRegistry;
 
 /**
@@ -18,7 +18,7 @@ class SettingsController extends AppController
      */
     public function index()
     {
-        $weekdayList = Weekday::START_DAY_WEEK_LIST;
+        $weekdayList = Weekday::START_DAY_WEEK_NAMES;
 
         $loginId = $this->getRequest()->getSession()->read('Auth.id');
         $UsersTable = $this->fetchTable('Users')->find()->where(['id' => $loginId])->first();
