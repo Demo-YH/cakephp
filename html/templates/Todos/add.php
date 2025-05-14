@@ -19,7 +19,10 @@
             <fieldset>
                 <legend><?= __('Add Todo') ?></legend>
                 <?php
-                    echo $this->Form->control('user_id', ['options' => $users]);
+                    echo $this->Form->control('user_id', [
+                        'options' => $users,
+                        'default' => $login,
+                    ]);
                     echo $this->Form->control('title');
                     echo $this->Form->control('detail');
                     echo $this->Form->control('tag');

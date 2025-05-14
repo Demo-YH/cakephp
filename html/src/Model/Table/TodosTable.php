@@ -7,6 +7,7 @@ use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use DateTime;
 
 /**
  * Todos Model
@@ -103,5 +104,16 @@ class TodosTable extends Table
         $rules->add($rules->existsIn(['user_id'], 'Users'), ['errorField' => 'user_id']);
 
         return $rules;
+    }
+
+    public function getTodoYearMonth(Datetime $currentDate, int $loginId)
+    {
+        return $this->find()
+        ->where([
+            'user_id' => $loginId,
+            'YEAR(deadline)' => $currentDate->format('Y'),
+            'MONTH(deadline)' => $currentDate->format('m'),
+            ])
+            ->all();
     }
 }

@@ -58,8 +58,9 @@ class CalendersController extends AppController
         $period = $this->generateCalendar($firstDay, $lastDay, (string)$selectDayWeek);
 
         $loginId = $this->getRequest()->getSession()->read('Auth.id');
-        $todosTable = $this->fetchTable('Todos')->find()->where(['user_id' => $loginId])->all();
-
+        $todosTable = $this->fetchTable('Todos');
+        // $todosTable = $this->fetchTable('Todos')->find()->where(['user_id' => $loginId])->all();
+        $todos = $todosTable->getTodoYearMonth($currentDate, $loginId);
         $todoData = [];
 
         foreach ($todosTable as $todo) {
