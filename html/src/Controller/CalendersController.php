@@ -59,11 +59,10 @@ class CalendersController extends AppController
 
         $loginId = $this->getRequest()->getSession()->read('Auth.id');
         $todosTable = $this->fetchTable('Todos');
-        // $todosTable = $this->fetchTable('Todos')->find()->where(['user_id' => $loginId])->all();
         $todos = $todosTable->getTodoYearMonth($currentDate, $loginId);
         $todoData = [];
 
-        foreach ($todosTable as $todo) {
+        foreach ($todos as $todo) {
             $deadline = $todo->deadline->format('Y-m-d');
             $todoData[$deadline][] = $todo;
         }

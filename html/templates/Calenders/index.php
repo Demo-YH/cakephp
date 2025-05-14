@@ -81,7 +81,7 @@
                                     <?= $day->format('j') ?>
                                     <?php if (isset ($todoData[$day->format('Y-m-d')])): ?>
                                         <?php foreach ($todoData[$day->format('Y-m-d')] as $todo): ?>
-                                            <br><?= $todo['title'] ?>
+                                            <br><?= $todo->title ?>
                                         <?php endforeach; ?>
                                     <?php endif ?>
                                 <?php else: ?>

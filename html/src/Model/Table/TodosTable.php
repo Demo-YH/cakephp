@@ -106,6 +106,12 @@ class TodosTable extends Table
         return $rules;
     }
 
+    /**
+     * 指定した年月のTodoデータを取得するアクセサメソッド
+     *
+     * @param Datetime $currentDate
+     * @return \Illuminate\Database\Eloquent\Model 指定年月のTodoデータ
+     */
     public function getTodoYearMonth(Datetime $currentDate, int $loginId)
     {
         return $this->find()
