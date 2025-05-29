@@ -35,3 +35,7 @@
 #### 20. /var/www/html/configにフォルダ移動し、app_local.phpで'Datasources'以降を設定した接続情報に書き換える  
 #### 21. localhostにてCakePHPの初期画面が表示されることを確認  
 #### 22. bin/cake plugin load DebugKitコマンドでDebugKitが使用可能となる(初回のみ実施)  
+※ clone後に起動できない時(DBエラー)  
+※ bin/cake migrations migrate　コマンド実施  
+※ app_local.php有無確認  
+※ chmod 777 -R tmp　コマンド実施  
