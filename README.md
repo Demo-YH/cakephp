@@ -36,6 +36,7 @@
 #### 21. localhostにてCakePHPの初期画面が表示されることを確認  
 #### 22. bin/cake plugin load DebugKitコマンドでDebugKitが使用可能となる(初回のみ実施)  
 ## git clone後  
-※ bin/cake migrations migrate　コマンド実施  
-※ app_local.php有無確認  
-※ chmod 777 -R tmp　コマンド実施  
+#### 1. docker exec -it cakephp-web-1 bashでコンテナにはいる  
+#### 2. bin/cake migrations migrate　コマンド実施  
+#### 3. app_local.php有無確認  
+#### 4. chmod 777 -R tmp　コマンド実施  
